@@ -120,29 +120,29 @@
 
     <h1>💎 Procedural Stone Texture Generator</h1>
 
-    <p>This website provides information about the **UE5 Stone Texture Generator**, a Python application built with **CustomTkinter** and **NumPy** for creating realistic, seamless stone textures using procedural generation techniques. The textures are designed for use in game engines like Unreal Engine (UE5) or other 3D applications.</p>
+    <p>This website provides information about the UE5 Stone Texture Generator, a Python application built with CustomTkinter and NumPy for creating realistic, seamless stone textures using procedural generation techniques. The textures are designed for use in game engines like Unreal Engine (UE5) or other 3D applications.</p>
 
     <hr>
 
     <h2>💻 How It Works</h2>
 
-    <p>The core of the application is the <code>StoneGeneratorEngine</code> class, which leverages **vectorized NumPy operations** for high-performance texture generation. It produces the four essential maps needed for Physically Based Rendering (PBR): **Albedo**, **Normal**, **Roughness**, and **Height**.</p>
+    <p>The core of the application is the <code>StoneGeneratorEngine</code> class, which leverages vectorized NumPy operations for high-performance texture generation. It produces the four essential maps needed for Physically Based Rendering (PBR): Albedo, Normal, Roughness, and Height.</p>
 
     <h3>1. The Generation Process</h3>
 
-    <p>The textures are based on **fractal noise**, specifically a technique related to **Perlin noise** or **Value noise** combined with **Fractal Brownian Motion (FBM)**.</p>
+    <p>The textures are based on fractal noise, specifically a technique related to Perlin noise or Value noise combined with Fractal Brownian Motion (FBM).</p>
     
     <ul>
-        <li>**Noise Layer Generation:** The <code>generate_noise_layer</code> method creates a base layer by summing multiple layers (called **octaves**) of noise. Each octave has a higher frequency and lower amplitude than the last (controlled by **lacunarity** and **persistence**), adding fine detail to the overall shape.</li>
-        <li>**Base Height Map:** This serves as the fundamental structure of the stone.</li>
-        <li>**Domain Warping:** To create more organic and less grid-like patterns, the coordinates used to sample the noise are <em>warped</em> or <em>offset</em> by a secondary, lower-frequency noise function. This introduces natural-looking bends, folds, and river-like features often seen in eroded terrain or rock.</li>
+        <li>Noise Layer Generation: The <code>generate_noise_layer</code> method creates a base layer by summing multiple layers (called octaves) of noise. Each octave has a higher frequency and lower amplitude than the last (controlled by lacunarity and persistence), adding fine detail to the overall shape.</li>
+        <li>Base Height Map: This serves as the fundamental structure of the stone.</li>
+        <li>Domain Warping: To create more organic and less grid-like patterns, the coordinates used to sample the noise are <em>warped</em> or <em>offset</em> by a secondary, lower-frequency noise function. This introduces natural-looking bends, folds, and river-like features often seen in eroded terrain or rock.</li>
     </ul>
 
     <p class="code-block">
-        # structure = (base_noise + 0.08 * warp_x + 0.08 * warp_y)
+        # structure = (base_noise + 0.08  warp_x + 0.08  warp_y)
     </p>
     
-    <p>**Contrast Refinement:** The resulting structure is passed through a simple contrast adjustment to sharpen the rock features.</p>
+    <p>Contrast Refinement: The resulting structure is passed through a simple contrast adjustment to sharpen the rock features.</p>
     
     
 
@@ -162,22 +162,22 @@
         </thead>
         <tbody>
             <tr>
-                <td>**Albedo** (Color)</td>
+                <td>Albedo (Color)</td>
                 <td>Defines the base color and diffuse light reflection.</td>
-                <td>Blends two user-defined colors (<code>color1</code> and <code>color2</code>) based on the value of the **Height Map** (<code>structure</code>).</td>
+                <td>Blends two user-defined colors (<code>color1</code> and <code>color2</code>) based on the value of the Height Map (<code>structure</code>).</td>
             </tr>
             <tr>
-                <td>**Normal**</td>
+                <td>Normal</td>
                 <td>Simulates small-scale surface detail and bumps using fake lighting.</td>
-                <td>Calculated using the **gradient** of the Height Map (<code>structure</code>). The x and y derivatives are scaled by the <code>depth_strength</code> parameter and then used to construct the x, y, z vectors of the normal map, which are then normalized.</td>
+                <td>Calculated using the gradient of the Height Map (<code>structure</code>). The x and y derivatives are scaled by the <code>depth_strength</code> parameter and then used to construct the x, y, z vectors of the normal map, which are then normalized.</td>
             </tr>
             <tr>
-                <td>**Roughness**</td>
+                <td>Roughness</td>
                 <td>Controls how sharp or blurry reflections are (microsurface detail).</td>
                 <td>Derived directly from the Height Map, where higher areas (peaks) are generally made rougher (lighter values).</td>
             </tr>
             <tr>
-                <td>**Height** (Displacement/Bump)</td>
+                <td>Height (Displacement/Bump)</td>
                 <td>A grayscale image representing surface height (black is low, white is high).</td>
                 <td>The normalized <code>structure</code> array is scaled from 0 to 255.</td>
             </tr>
@@ -191,12 +191,12 @@
     <p>The application features several sliders and inputs to control the resulting texture:</p>
 
     <ul>
-        <li>**Resolution:** Output size (e.g., 2048x2048, 4096x4096). The preview uses a fixed 1024x1024 resolution for speed.</li>
-        <li>**Noise Scale (Zoom):** Controls the overall size of the rock features. A smaller scale means larger features.</li>
-        <li>**Detail Intensity (Contrast):** Adjusts the value range of the base structure, sharpening the difference between the peaks and valleys.</li>
-        <li>**3D Depth Strength:** Multiplies the gradient vectors before normalizing the **Normal Map**, controlling the perceived height/depth of the bumps.</li>
-        <li>**Micro-Details (Octaves):** The number of noise layers (octaves) summed to create the fractal noise. More octaves add finer detail but increase generation time.</li>
-        <li>**Seed:** An integer used to initialize the random number generator, ensuring the texture can be perfectly reproduced.</li>
+        <li>Resolution: Output size (e.g., 2048x2048, 4096x4096). The preview uses a fixed 1024x1024 resolution for speed.</li>
+        <li>Noise Scale (Zoom): Controls the overall size of the rock features. A smaller scale means larger features.</li>
+        <li>Detail Intensity (Contrast): Adjusts the value range of the base structure, sharpening the difference between the peaks and valleys.</li>
+        <li>3D Depth Strength: Multiplies the gradient vectors before normalizing the Normal Map, controlling the perceived height/depth of the bumps.</li>
+        <li>Micro-Details (Octaves): The number of noise layers (octaves) summed to create the fractal noise. More octaves add finer detail but increase generation time.</li>
+        <li>Seed: An integer used to initialize the random number generator, ensuring the texture can be perfectly reproduced.</li>
     </ul>
 
     <hr>
